@@ -5,5 +5,16 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
-  }
+    // Project References
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

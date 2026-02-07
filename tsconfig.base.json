@@ -1,5 +1,13 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
+  "references": [
+    {
+      "path": "./packages/back"
+    },
+    {
+      "path": "./packages/front"
+    }
+  ],
   "compilerOptions": {
     // Environment Settings
     // See also https://aka.ms/tsconfig/module

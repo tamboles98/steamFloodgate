@@ -10,7 +10,8 @@
     "prepare": "husky"
   },
   "workspaces": [
-    "packages/back"
+    "packages/back",
+    "packages/front"
   ],
   "keywords": [],
   "author": "Santiago Cebellán Martínez",
