@@ -7,9 +7,6 @@ export interface Services {
 
 export const buildServices = () => {
   return {
-    libraryService: new HttpSteamLibraryService(
-      config.STEAM_USER_ID,
-      config.STEAM_KEY,
-    ),
+    libraryService: new HttpSteamLibraryService(config.STEAM_KEY),
   };
 };

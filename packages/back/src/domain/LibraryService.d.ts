@@ -1,5 +1,5 @@
-import type { Game } from "./Game.js"
+import type { Game } from "./Game.js";
 
 export interface LibraryService {
-    getOwnLibrary(): Promise<Game[]>
+  getLibraryByUserId(userId: string): Promise<Game[]>;
 }

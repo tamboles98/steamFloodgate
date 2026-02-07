@@ -19,8 +19,8 @@ export interface GameLotteryResult {
 export class RunGameLottery {
   constructor(private readonly libraryService: LibraryService) {}
 
-  async run(): Promise<GameLotteryResult> {
-    const games = await this.libraryService.getOwnLibrary();
+  async run(steamUserId: string): Promise<GameLotteryResult> {
+    const games = await this.libraryService.getLibraryByUserId(steamUserId);
     const unplayedGames = games.filter((game) => game.timePlayedMin <= 60 * 2);
     const lotteryDetails = {
       packages: 3,

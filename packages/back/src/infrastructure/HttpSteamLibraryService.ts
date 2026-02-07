@@ -1,35 +1,33 @@
 import type { Config } from "../config.js";
 import type { Game } from "../domain/Game.js";
 import type { LibraryService } from "../domain/LibraryService.js";
+import { SteamUserNotFoundError } from "../domain/errors/SteamUserNotFoundError.js";
 
 export class HttpSteamLibraryService implements LibraryService {
-  private readonly request: Request;
-  constructor(userId: Config["STEAM_USER_ID"], apiKey: Config["STEAM_KEY"]) {
-    this.request = this.buildRequest(userId, apiKey);
+  constructor(private readonly apiKey: Config["STEAM_KEY"]) {}
+
+  async getLibraryByUserId(userId: string): Promise<Game[]> {
+    const steamResponse = await this.getSteamLibraryData(userId);
+    return this.mapSteamLibraryToGames(steamResponse);
   }
 
-  async getOwnLibrary(): Promise<Game[]> {
-    const steamResponse = await this.getData();
-    return this.mapSteamResponseToGames(steamResponse);
+  private async getSteamLibraryData(userId: string): Promise<LibraryData> {
+    const libraryResponse = await this.fetchSteamLibraryData(userId);
+    if (isEmptyLibraryResponse(libraryResponse)) {
+      throw new SteamUserNotFoundError(userId);
+    }
+    return libraryResponse;
   }
 
-  private async getData(): Promise<SteamGetOwnLibraryResponse> {
-    const response = await fetch(this.request);
-    const responseText = await response.text();
-    return this.parseRawResponse(responseText);
+  private async fetchSteamLibraryData(
+    userId: string,
+  ): Promise<LibraryResponse> {
+    const request = this.buildRequest(userId);
+    const rawResponse = await this.handleRequest(request);
+    return this.parseRawResponsePayload(rawResponse).response;
   }
 
-  private mapSteamResponseToGames(
-    rawResponse: SteamGetOwnLibraryResponse,
-  ): Game[] {
-    return rawResponse.response.games.map((game) => ({
-      id: game.appid,
-      name: game.name,
-      timePlayedMin: game.playtime_forever,
-    }));
-  }
-
-  private buildRequest(userId: string, apiKey: string): Request {
+  private buildRequest(userId: string): Request {
     const requestOptions = {
       method: "GET",
     };
@@ -38,43 +36,72 @@ export class HttpSteamLibraryService implements LibraryService {
       format: "json",
       steamid: userId,
       include_appinfo: "true",
-      key: apiKey,
+      key: this.apiKey,
     });
 
     const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001?${params}`;
     return new Request(url, requestOptions);
   }
 
-  private parseRawResponse(rawResponse: string): SteamGetOwnLibraryResponse {
+  private async handleRequest(request: Request): Promise<string> {
+    const response = await fetch(request);
+    if (!response.ok)
+      throw new Error(
+        `Failed to fetch library data: ${response.status} ${response.statusText}`,
+      );
+    return response.text();
+  }
+
+  private parseRawResponsePayload(
+    rawResponse: string,
+  ): SteamGetLibraryResponsePayload {
     const parsedResponse = JSON.parse(rawResponse);
-    if (!isSteamOwnLibraryResponse(parsedResponse)) {
-      throw new Error("Invalid Steam own library response");
+    if (!isSteamLibraryResponse(parsedResponse)) {
+      throw new Error("Invalid Steam library response");
     }
     return parsedResponse;
   }
+
+  private mapSteamLibraryToGames(rawResponse: LibraryData): Game[] {
+    return rawResponse.games.map((game) => ({
+      id: game.appid,
+      name: game.name,
+      timePlayedMin: game.playtime_forever,
+    }));
+  }
 }
 
-interface SteamGetOwnLibraryResponse {
-  response: {
-    game_count: number;
-    games: {
-      appid: string;
-      name: string;
-      playtime_forever: number;
-    }[];
-  };
+interface LibraryData {
+  game_count: number;
+  games: {
+    appid: string;
+    name: string;
+    playtime_forever: number;
+  }[];
 }
 
-function isSteamOwnLibraryResponse(
+type EmptyResponse = Record<string, never>;
+
+type LibraryResponse = LibraryData | EmptyResponse;
+
+interface SteamGetLibraryResponsePayload {
+  response: LibraryResponse;
+}
+
+function isSteamLibraryResponse(
   message: unknown,
-): message is SteamGetOwnLibraryResponse {
+): message is SteamGetLibraryResponsePayload {
   return (
     typeof message === "object" &&
     message !== null &&
     "response" in message &&
     typeof message.response === "object" &&
-    message.response !== null &&
-    "games" in message.response &&
-    Array.isArray(message.response.games)
+    message.response !== null
   );
+}
+
+function isEmptyLibraryResponse(
+  content: LibraryResponse,
+): content is EmptyResponse {
+  return Object.keys(content).length === 0;
 }
