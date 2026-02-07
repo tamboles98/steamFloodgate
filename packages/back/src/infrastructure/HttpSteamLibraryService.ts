@@ -1,9 +1,10 @@
+import type { Config } from "../config.js";
 import type { Game } from "../domain/Game.js";
 import type { LibraryService } from "../domain/LibraryService.js";
 
 export class HttpSteamLibraryService implements LibraryService {
   private readonly request: Request;
-  constructor(userId: string, apiKey: string) {
+  constructor(userId: Config["STEAM_USER_ID"], apiKey: Config["STEAM_KEY"]) {
     this.request = this.buildRequest(userId, apiKey);
   }
 

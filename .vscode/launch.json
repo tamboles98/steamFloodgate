@@ -8,17 +8,18 @@
             "name": "Debug index.ts",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceFolder}/src/index.ts",
+            "cwd": "${workspaceFolder}/packages/back",
+            "program": "./src/index.ts",
             "runtimeExecutable": "npx",
             "runtimeArgs": [
                 "tsx",
                 "--env-file=.env"
             ],
             "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
+            "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": [
                 "<node_internals>/**",
-                "${workspaceFolder}/node_modules/**"
+                "./node_modules/**"
             ]
         }
     ]
