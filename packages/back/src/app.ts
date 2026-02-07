@@ -9,25 +9,26 @@ export const buildApp = (useCases: UseCases) => {
 
   const opts = {
     schema: {
-      querystring: {
+      params: {
         type: "object",
         properties: {
           steamUserId: { type: "string" },
         },
+        required: ["steamUserId"],
       },
     },
   };
 
-  type RequestQuery = {
+  type RequestParams = {
     steamUserId: string;
   };
 
   // Declare a route
   fastify.get<{
-    Querystring: RequestQuery;
-  }>("/", opts, async function (request, reply) {
+    Params: RequestParams;
+  }>("/:steamUserId", opts, async function (request, reply) {
     try {
-      reply.send(await useCases.runGameLottery.run(request.query.steamUserId));
+      reply.send(await useCases.runGameLottery.run(request.params.steamUserId));
     } catch (error) {
       request.log.error(error);
       if (error instanceof SteamUserNotFoundError) {
