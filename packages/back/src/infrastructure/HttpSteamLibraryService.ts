@@ -3,9 +3,7 @@ import type { LibraryService } from "../domain/LibraryService.js";
 
 export class HttpSteamLibraryService implements LibraryService {
   private readonly request: Request;
-  constructor(
-    userId: string, apiKey: string
-  ) {
+  constructor(userId: string, apiKey: string) {
     this.request = this.buildRequest(userId, apiKey);
   }
 
@@ -21,7 +19,7 @@ export class HttpSteamLibraryService implements LibraryService {
   }
 
   private mapSteamResponseToGames(
-    rawResponse: SteamGetOwnLibraryResponse
+    rawResponse: SteamGetOwnLibraryResponse,
   ): Game[] {
     return rawResponse.response.games.map((game) => ({
       id: game.appid,
@@ -67,8 +65,15 @@ interface SteamGetOwnLibraryResponse {
 }
 
 function isSteamOwnLibraryResponse(
-  message: any
+  message: unknown,
 ): message is SteamGetOwnLibraryResponse {
-  return message && message.response && Array.isArray(message.response.games);
+  return (
+    typeof message === "object" &&
+    message !== null &&
+    "response" in message &&
+    typeof message.response === "object" &&
+    message.response !== null &&
+    "games" in message.response &&
+    Array.isArray(message.response.games)
+  );
 }
-

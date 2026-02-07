@@ -1,12 +1,15 @@
 {
   "name": "steamfloodgate",
-  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --env-file=.env src/index.ts",
-    "build": "tsc"
+    "build": "npm run --ws build",
+    "typecheck": "npm run --ws typecheck",
+    "lint": "npm run --ws lint"
   },
+  "workspaces": [
+    "packages/back"
+  ],
   "keywords": [],
   "author": "Santiago Cebellán Martínez",
   "license": "ISC",

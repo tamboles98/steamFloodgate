@@ -1,4 +1,4 @@
-import type { GameId } from "./GameId";
+import type { GameId } from "./GameId.js";
 
 export interface Game {
     id: GameId,
