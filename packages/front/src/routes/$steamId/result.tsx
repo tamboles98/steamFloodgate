@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Game } from "../components/Game";
+import { Game } from "../../components/Game";
 
-export const Route = createFileRoute("/result")({
+export const Route = createFileRoute("/$steamId/result")({
   component: RouteComponent,
 });
 
