@@ -5,7 +5,7 @@ import { buildUseCases } from "./useCases.js";
 async function main() {
   const services = buildServices();
   const useCases = buildUseCases(services);
-  const app = buildApp(useCases);
+  const app = await buildApp(useCases);
   app.listen({ port: 3000 }, function (err) {
     if (err) {
       app.log.error(err);

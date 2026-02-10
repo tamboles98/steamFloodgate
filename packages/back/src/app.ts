@@ -1,10 +1,15 @@
+import cors from "@fastify/cors";
 import Fastify from "fastify";
 import { SteamUserNotFoundError } from "./domain/errors/SteamUserNotFoundError.js";
 import type { UseCases } from "./useCases.js";
 
-export const buildApp = (useCases: UseCases) => {
+export const buildApp = async (useCases: UseCases) => {
   const fastify = Fastify({
     logger: true,
+  });
+
+  await fastify.register(cors, {
+    origin: "*", // Allow all origins for now
   });
 
   const opts = {

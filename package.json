@@ -3,6 +3,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "npm run -w front dev & npm run -w back dev",
     "validate": "npm run typecheck && npm run lint",
     "build": "npm run --ws build",
     "typecheck": "npm run --ws typecheck",

@@ -1,6 +1,6 @@
 export interface GameDTO {
-  appId: number;
+  id: number;
   name: string;
-  hoursPlayed: number;
-  imageIcon: string;
+  timePlayedMin: number;
+  imageIconUrl: string;
 }

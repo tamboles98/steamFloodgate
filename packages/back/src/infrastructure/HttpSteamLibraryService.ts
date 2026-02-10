@@ -67,6 +67,7 @@ export class HttpSteamLibraryService implements LibraryService {
       id: game.appid,
       name: game.name,
       timePlayedMin: game.playtime_forever,
+      imageIconUrl: game.img_icon_url,
     }));
   }
 }
@@ -77,6 +78,7 @@ interface LibraryData {
     appid: string;
     name: string;
     playtime_forever: number;
+    img_icon_url: string;
   }[];
 }
 

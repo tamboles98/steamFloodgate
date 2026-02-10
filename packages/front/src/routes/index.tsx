@@ -1,9 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import type React from "react";
 
-import "./index.css";
 import SteamIdForm from "../components/SteamIdForm";
+import "./index.css";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -25,7 +24,7 @@ function RouteComponent() {
 
   return (
     <>
-      <h1>Obten un paquete de juegos aleatorio</h1>
+      <h1>Obtén un paquete de juegos aleatorio</h1>
       <SteamIdForm submitHandler={handleSubmit} />
     </>
   );

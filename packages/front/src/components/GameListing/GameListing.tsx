@@ -10,7 +10,7 @@ export const GameListing = ({ games }: GameListingProps) => {
   return (
     <ul className="gameListing">
       {games.map((game) => (
-        <li key={game.appId} className="gameListingItem">
+        <li key={game.id} className="gameListingItem">
           <Game game={game} />
         </li>
       ))}

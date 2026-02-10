@@ -6,7 +6,12 @@ export interface GameProps {
 }
 
 export const Game = ({ game }: GameProps) => {
-  const { name, hoursPlayed, appId, imageIcon } = game;
+  const {
+    name,
+    timePlayedMin: hoursPlayed,
+    id: appId,
+    imageIconUrl: imageIcon,
+  } = game;
   const iconUrl = `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${imageIcon}.jpg`;
   return (
     <article className="game-card">
