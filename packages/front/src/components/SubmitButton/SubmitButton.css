@@ -1,0 +1,17 @@
+.submitButton {
+  font-size: 1.2em;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  height: 2em;
+  background-color: #66c0f4;
+  color: #1b2838;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitButton:hover {
+  background-color: #2a475e;
+}

@@ -1,15 +1,7 @@
 :root {
-  background-color: #1a1a1a;
-  color: #ffffff;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
-
-button {
-  background-color: #333333;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
+  background-color: #171a21;
+  color: #c7d5e0;
+  font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
 }
 
 button:hover {
