@@ -1,10 +1,7 @@
+import type { GameDTO } from "../domain/GameDTO";
+
 export interface RunLotteryResponse {
-  result: {
-    id: number;
-    name: string;
-    timePlayedMin: number;
-    imageIconUrl: string;
-  }[][];
+  result: GameDTO[][];
 }
 
 export const createRunLotteryQuery =

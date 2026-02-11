@@ -1,4 +1,5 @@
 import { type GameDTO } from "../../domain/GameDTO";
+import { getGameIconFullUrl } from "../../utils/gameIcons";
 import "./Game.css";
 
 export interface GameProps {
@@ -6,13 +7,8 @@ export interface GameProps {
 }
 
 export const Game = ({ game }: GameProps) => {
-  const {
-    name,
-    timePlayedMin: hoursPlayed,
-    id: appId,
-    imageIconUrl: imageIcon,
-  } = game;
-  const iconUrl = `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${imageIcon}.jpg`;
+  const { name, timePlayedMin } = game;
+  const iconUrl = getGameIconFullUrl(game);
   return (
     <article className="game-card">
       <div className="gameInfo">
@@ -24,7 +20,9 @@ export const Game = ({ game }: GameProps) => {
         />
         <h3 className="gameName">{name}</h3>
       </div>
-      <p className="hoursPlayed">Horas jugadas: {hoursPlayed}</p>
+      <p className="hoursPlayed">
+        Horas jugadas: {(timePlayedMin / 60).toFixed(1)}
+      </p>
     </article>
   );
 };

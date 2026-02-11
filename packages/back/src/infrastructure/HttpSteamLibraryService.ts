@@ -75,7 +75,7 @@ export class HttpSteamLibraryService implements LibraryService {
 interface LibraryData {
   game_count: number;
   games: {
-    appid: string;
+    appid: number;
     name: string;
     playtime_forever: number;
     img_icon_url: string;

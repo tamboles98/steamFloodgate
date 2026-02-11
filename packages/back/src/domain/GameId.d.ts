@@ -1,1 +1,1 @@
-export type GameId = string;
+export type GameId = number;
