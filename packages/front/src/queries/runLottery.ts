@@ -1,3 +1,4 @@
+import { config } from "../config";
 import type { GameDTO } from "../domain/GameDTO";
 
 export interface RunLotteryResponse {
@@ -6,7 +7,7 @@ export interface RunLotteryResponse {
 
 export const createRunLotteryQuery =
   (steamUserId: string) => async (): Promise<RunLotteryResponse> => {
-    const response = await fetch(`http://localhost:3000/${steamUserId}`, {
+    const response = await fetch(`${config.backendUrl}/${steamUserId}`, {
       method: "GET",
     });
     if (!response.ok) {
